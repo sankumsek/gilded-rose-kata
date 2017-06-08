@@ -4,9 +4,14 @@ function Item(name, sell_in, quality) {
   this.quality = quality;
 }
 
+var conjured_quality = -2;
+
+var qoh       = 50;
+var qol       =  0;
+
 var items = []
 
-function update_quality() {
+function updateQuality() {
   for (var i = 0; i < items.length; i++) {
     if (items[i].name != 'Aged Brie' && items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
       if (items[i].quality > 0) {
@@ -51,5 +56,31 @@ function update_quality() {
         }
       }
     }
+    if (items[i].name == "Conjured Mana Cake") {
+      conjured(items[i])
+    }
   }
 }
+
+function conjured(item) {
+  itemMod(item, conjured_quality);
+};
+
+function itemMod(item, modifier) {
+  qualityMod(item, modifier)
+  qualityHighLow(item)
+  sellIn(item)
+};
+
+function qualityMod(item, modifier) {
+  item.quality += modifier
+}
+
+function qualityHighLow(item) {
+  if      (item.quality < qol) {item.quality = 0}
+  else if (item.quality > qoh) {item.quality = 50}
+};
+
+function sellIn(item) {
+  item.sell_in -= 1;
+};
